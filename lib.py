@@ -120,7 +120,7 @@ class auto_git:
     def generate_report(self):
         os.chdir(self.tp_folder)
         output = {}
-        output["_no_push"] = []
+        output["_no_clone"] = []
         for stu in self.students.values():
             output[stu["login"]] = {}
             for k in self.report_filter:
@@ -130,7 +130,7 @@ class auto_git:
                 with open(f"{stu['project_dir']}/report.yaml", "w") as f:
                     f.write(yaml.safe_dump(output[stu["login"]], indent=4))
             if not stu["clone_success"]:
-                output["_no_push"].append(stu["login"])
+                output["_no_clone"].append(stu["login"])
             if output[stu["login"]] == {}:
                 del output[stu["login"]]
         text_output = yaml.safe_dump(output, indent=4)
