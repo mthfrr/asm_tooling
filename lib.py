@@ -86,12 +86,20 @@ class auto_git:
         
         with open(authors_path, "r") as f:
             lines = f.readlines()
-            for l in lines:
-                if l[-1] != '\n':
-                    stu["AUTHORS"] = "no last char \\n"
-                    return stu
-            if len(lines) != 4:
-                stu["AUTHORS"] = "not 4 lines"
+            if len(lines) == 0:
+                stu["AUTHORS"] = "empty"
+                return stu
+            if lines[-1][-1] != '\n':
+                stu["AUTHORS"] = "last char not \\n"
+                return stu
+            if lines[-1][-2:-1] == '\n\n':
+                stu["AUTHORS"] = "ends with \\n\\n"
+                return stu
+            if len(lines) > 4:
+                stu["AUTHORS"] = "more than 4 lines"
+                return stu
+            if len(lines) < 4:
+                stu["AUTHORS"] = "less than 4 lines"
                 return stu
             elif lines[2] != f"{stu['login']}\n" or lines[3] != f"{stu['login']}@epita.fr\n":
                 stu["AUTHORS"] = "login or email error"
@@ -126,9 +134,12 @@ class auto_git:
             for k in self.report_filter:
                 if k in stu:
                     output[stu["login"]][k] = stu[k]
+
+            # save in each dir
             if output[stu["login"]] != {}:
                 with open(f"{stu['project_dir']}/report.yaml", "w") as f:
                     f.write(yaml.safe_dump(output[stu["login"]], indent=4))
+            # only in global report
             if not stu["clone_success"]:
                 output["_no_clone"].append(stu["login"])
             if output[stu["login"]] == {}:
