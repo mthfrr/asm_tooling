@@ -47,7 +47,8 @@ class auto_git:
         for student in res:
             self.students[student["login"]] = student
 
-        time.sleep(5) # HUMM
+        if len(res) != 0:
+            time.sleep(5) # HUMM
         self.foreach_student(self.get_file_list)
 
     def clone_process(self, name):
@@ -164,39 +165,38 @@ class auto_git:
                 output["_no_clone"].append(stu["login"])
             if output[stu["login"]] == {}:
                 del output[stu["login"]]
-        output["__stat"] = self.get_stat()
+                
+        output["_all_good"] = []
+        for stu in self.students.keys():
+            if stu not in output:
+                output["_all_good"].append(stu)
+        self.add_stats(output)
         text_output = yaml.safe_dump(output, indent=4)
         print(text_output)
         with open(f"report.yaml", "w") as f:
             f.write(text_output)
         return output
     
-    def get_stat(self):
+    def pb_stat_builder(self, name, res, total_students, flt):
+        login = set(map(lambda x: x["login"], filter(flt, self.students.values())))
+        val = len(login)
+        res[name] = (val, f"{val/total_students*100:.2f}%")
+        return login
+    
+    def add_stats(self, output):
         res = {}
         total_students = len(self.config["students"])
         total_pb = 0
         
-        val = len(list(filter(lambda x: not x.get("clone_success", True), self.students.values())))
-        total_pb += val
-        res["no_clone"] = (val, f"{val/total_students*100:.2f}%")
+        pb_stu = set()
         
-        val = len(list(filter(lambda x: x.get("repo_empty", False), self.students.values())))
-        total_pb += val
-        res["no_push"] = (val, f"{val/total_students*100:.2f}%")
+        pb_stu = pb_stu.union(self.pb_stat_builder("no_clone", res, total_students, lambda x: not x.get("clone_success", True)))
+        pb_stu = pb_stu.union(self.pb_stat_builder("no_push", res, total_students, lambda x: x.get("repo_empty", False)))
+        pb_stu = pb_stu.union(self.pb_stat_builder("trash_files", res, total_students, lambda x: "trash_files" in x))
+        pb_stu = pb_stu.union(self.pb_stat_builder("missing_files", res, total_students, lambda x: "missing_files" in x))
+        pb_stu = pb_stu.union(self.pb_stat_builder("AUTHORS_error", res, total_students, lambda x: "AUTHORS" in x))
         
-        val = len(list(filter(lambda x: "trash_files" in x, self.students.values())))
-        total_pb += val
-        res["trash_files"] = (val, f"{val/total_students*100:.2f}%")
-        
-        val = len(list(filter(lambda x: "missing_files" in x, self.students.values())))
-        total_pb += val
-        res["missing_files"] = (val, f"{val/total_students*100:.2f}%")
-        
-        val = len(list(filter(lambda x: "AUTHORS" in x, self.students.values())))
-        total_pb += val
-        res["AUTHORS_error"] = (val, f"{val/total_students*100:.2f}%")
-        
-        val = total_students - total_pb
+        val = total_students - len(pb_stu)
         res["all_good"] = (val, f"{val/total_students*100:.2f}%")
         
         val = sum(map(lambda x: len(x["missing_files"]), filter(lambda x: "missing_files" in x, self.students.values())))
@@ -205,7 +205,8 @@ class auto_git:
         val = sum(map(lambda x: len(x["trash_files"]), filter(lambda x: "trash_files" in x, self.students.values())))
         res["trash_files_per_student"] = round(val/total_students, 2)
         
-        return res
+        output["__stat"] = res
+        output["_all_good"] = list(set(map(lambda x: x["login"], self.students.values())).difference(pb_stu))
 
 def list_files_in_archi(archi, start_path='', res=None):
     if res == None:
