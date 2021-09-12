@@ -86,13 +86,17 @@ class auto_git:
         
         with open(authors_path, "r") as f:
             lines = f.readlines()
+            content = "".join(lines)
+            if login == "guillaume.wantiez":
+                print(content[-2:].encode("ascii"))
+                print(content.encode("ascii"))
             if len(lines) == 0:
                 stu["AUTHORS"] = "empty"
                 return stu
-            if lines[-1][-1] != '\n':
+            if content[-1] != '\n':
                 stu["AUTHORS"] = "last char not \\n"
                 return stu
-            if lines[-1][-2:-1] == '\n\n':
+            if len(content)>2 and content[-2:] == '\n\n':
                 stu["AUTHORS"] = "ends with \\n\\n"
                 return stu
             if len(lines) > 4:
@@ -118,6 +122,8 @@ class auto_git:
 
         trash_files = list(trash_files)
         missing_files = list(missing_files)
+        trash_files.sort()
+        missing_files.sort()
 
         if len(trash_files) != 0:
             stu["trash_files"] = trash_files
