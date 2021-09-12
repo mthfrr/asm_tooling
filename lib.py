@@ -192,8 +192,12 @@ class auto_git:
         total_pb += val
         res["missing_files"] = (val, f"{val/total_students*100:.2f}%")
         
+        val = len(list(filter(lambda x: "AUTHORS" in x, self.students.values())))
+        total_pb += val
+        res["AUTHORS_error"] = (val, f"{val/total_students*100:.2f}%")
+        
         val = total_students - total_pb
-        res["no_pb"] = (val, f"{val/total_students*100:.2f}%")
+        res["all_good"] = (val, f"{val/total_students*100:.2f}%")
         
         val = sum(map(lambda x: len(x["missing_files"]), filter(lambda x: "missing_files" in x, self.students.values())))
         res["missing_files_per_student"] = round(val/total_students, 2)
