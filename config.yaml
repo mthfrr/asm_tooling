@@ -5,6 +5,11 @@ gitpath: "{username}@git.cri.epita.fr:p/{year}-{semester}-tp/tp{nb:02d}-{student
 path: "tp{nb:02d}"
 project_dir: "tp{nb:02d}-{student}"
 
+global_allowed_files: # readme are allowed internally, no need to put them here
+  - report.yaml # internally created file
+  - .gitignore
+  - .git
+
 tps:
   tp01:
     archi:

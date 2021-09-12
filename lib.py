@@ -7,6 +7,7 @@ import logging
 import glob
 import yaml
 import json
+import itertools
 
 class Encode(json.JSONEncoder):
     def default(self, obj):
@@ -37,7 +38,7 @@ class auto_git:
             if not self.students.get("clone_success", False):
                 self.students[stu]["clone_success"] = os.path.isdir(self.students[stu]["project_dir"])
         self.foreach_student(self.get_file_list)
-        self.report_filter = ["AUTHORS", "trash_files", "missing_files"]
+        self.report_filter = ["repo_empty", "AUTHORS", "trash_files", "missing_files"]
     
     def clone_repos(self):
         with Pool(processes=6) as pool:
@@ -72,12 +73,15 @@ class auto_git:
     def get_file_list(self, login):
         self.students[login]["file_list"] = list(
             os.path.relpath(p, self.students[login]["project_dir"])
-            for p in glob.glob(str(self.students[login]["project_dir"] + '/**/*'), recursive=True)
+            for p in itertools.chain(glob.glob(str(self.students[login]["project_dir"] + '/**/*'), recursive=True),
+                                     glob.glob(str(self.students[login]["project_dir"] + '/**/.*'), recursive=True))
         )
         return self.students[login]
 
     def check_AUTHORS(self, login):
         stu = self.students[login]
+        if stu.get("repo_empty", False):
+            return stu
         os.chdir(stu["project_dir"])
         authors_path = next(filter(lambda x: "AUTHORS" in x, stu["archi_file_list"]))
         if not os.path.isfile(authors_path):
@@ -87,9 +91,6 @@ class auto_git:
         with open(authors_path, "r") as f:
             lines = f.readlines()
             content = "".join(lines)
-            if login == "guillaume.wantiez":
-                print(content[-2:].encode("ascii"))
-                print(content.encode("ascii"))
             if len(lines) == 0:
                 stu["AUTHORS"] = "empty"
                 return stu
@@ -112,12 +113,15 @@ class auto_git:
 
     def check_archi(self, login):
         stu = self.students[login]
+        if stu.get("repo_empty", False):
+            return stu
         os.chdir(stu["project_dir"])
         missing_files = set(stu["archi_file_list"]).difference(stu["file_list"])
         trash_files = set(stu["file_list"]).difference(stu["archi_file_list"])
 
         # whitelist
-        trash_files = filter(lambda x: x != "report.yaml", trash_files)
+        trash_files.difference_update(self.config["global_allowed_files"])
+        
         trash_files = filter(lambda x: "README" not in x.upper(), trash_files)
 
         trash_files = list(trash_files)
@@ -129,6 +133,16 @@ class auto_git:
             stu["trash_files"] = trash_files
         if len(missing_files) != 0:
             stu["missing_files"] = missing_files
+        return stu
+    
+    def is_empty_repo(self, login):
+        stu = self.students[login]
+        os.chdir(stu["project_dir"])
+
+        files = set(stu["file_list"]).difference([".git", "report.yaml"])
+
+        if len(files) == 0:
+            stu["repo_empty"] = True
         return stu
 
     def generate_report(self):
@@ -150,11 +164,44 @@ class auto_git:
                 output["_no_clone"].append(stu["login"])
             if output[stu["login"]] == {}:
                 del output[stu["login"]]
+        output["__stat"] = self.get_stat()
         text_output = yaml.safe_dump(output, indent=4)
         print(text_output)
         with open(f"report.yaml", "w") as f:
             f.write(text_output)
         return output
+    
+    def get_stat(self):
+        res = {}
+        total_students = len(self.config["students"])
+        total_pb = 0
+        
+        val = len(list(filter(lambda x: not x.get("clone_success", True), self.students.values())))
+        total_pb += val
+        res["no_clone"] = (val, f"{val/total_students*100:.2f}%")
+        
+        val = len(list(filter(lambda x: x.get("repo_empty", False), self.students.values())))
+        total_pb += val
+        res["no_push"] = (val, f"{val/total_students*100:.2f}%")
+        
+        val = len(list(filter(lambda x: "trash_files" in x, self.students.values())))
+        total_pb += val
+        res["trash_files"] = (val, f"{val/total_students*100:.2f}%")
+        
+        val = len(list(filter(lambda x: "missing_files" in x, self.students.values())))
+        total_pb += val
+        res["missing_files"] = (val, f"{val/total_students*100:.2f}%")
+        
+        val = total_students - total_pb
+        res["no_pb"] = (val, f"{val/total_students*100:.2f}%")
+        
+        val = sum(map(lambda x: len(x["missing_files"]), filter(lambda x: "missing_files" in x, self.students.values())))
+        res["missing_files_per_student"] = round(val/total_students, 2)
+        
+        val = sum(map(lambda x: len(x["trash_files"]), filter(lambda x: "trash_files" in x, self.students.values())))
+        res["trash_files_per_student"] = round(val/total_students, 2)
+        
+        return res
 
 def list_files_in_archi(archi, start_path='', res=None):
     if res == None:
