@@ -88,12 +88,23 @@ class auto_git:
             self.students[student["login"]] = student
 
     def get_file_list(self, login):
-        self.students[login]["file_list"] = list(
-            os.path.relpath(p, self.students[login]["project_dir"])
-            for p in itertools.chain(glob.glob(str(self.students[login]["project_dir"] + '/**/*'), recursive=True),
-                                     glob.glob(str(self.students[login]["project_dir"] + '/**/.*'), recursive=True))
-        )
-        return self.students[login]
+        student = self.students[login]
+        os.chdir(student["project_dir"])
+        res = subprocess.run(f"git ls-files", shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        if res.returncode != 0:
+            raise Exception(f"ls-file error for {login}")
+        student["file_list"] = res.stdout.decode("utf-8").strip()
+        if student["file_list"] == "":
+            student["file_list"] = []
+        else:
+            student["file_list"] = student["file_list"].split("\n")
+        # print(student["file_list"])
+        # self.students[login]["file_list"] = list(
+        #     os.path.relpath(p, self.students[login]["project_dir"])
+        #     for p in itertools.chain(glob.glob(str(self.students[login]["project_dir"] + '/**/*'), recursive=True),
+        #                              glob.glob(str(self.students[login]["project_dir"] + '/**/.*'), recursive=True))
+        # )
+        return student
 
     def check_AUTHORS(self, login):
         stu = self.students[login]
@@ -232,7 +243,7 @@ def list_files_in_archi(archi, start_path='', res=None):
         if isinstance(el, dict):
             d, cont = extract(el)
             list_files_in_archi(cont, f"{start_path}/{d}", res)
-            res.append(f"{start_path}/{d}")
+            # res.append(f"{start_path}/{d}")
         else:
             res.append(f"{start_path}/{el}")
     return list(map(lambda x: x[1:], res))
