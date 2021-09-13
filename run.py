@@ -22,7 +22,7 @@ with open(args.students, "r") as f:
     config.update(yaml.safe_load(f))
 
 ag = auto_git(config, args.nb)
-ag.clone_repos()
+ag.get_or_update_repos()
 ag.foreach_student(ag.is_empty_repo)
 ag.foreach_student(ag.check_AUTHORS)
 ag.foreach_student(ag.check_archi)

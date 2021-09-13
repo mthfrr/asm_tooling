@@ -40,9 +40,12 @@ class auto_git:
         self.foreach_student(self.get_file_list)
         self.report_filter = ["repo_empty", "AUTHORS", "trash_files", "missing_files"]
     
-    def clone_repos(self):
+    def get_or_update_repos(self):
         with Pool(processes=6) as pool:
             res = pool.map(self.clone_process, filter(lambda x: not self.students[x]["clone_success"], self.config["students"]))
+            
+        with Pool(processes=6) as pool:
+            pool.map(self.pull_process, filter(lambda x: self.students[x]["clone_success"], self.config["students"]))
 
         for student in res:
             self.students[student["login"]] = student
@@ -63,6 +66,19 @@ class auto_git:
         student["clone_msg"] = res.stdout.decode("utf-8")
         student["clone_code"] = res.returncode
         print(f"cloned {student['login']}")
+        return student
+
+    def pull_process(self, name):
+        student = self.students[name]
+        os.chdir(student["project_dir"])
+        res = subprocess.run(f"git pull", shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        if res.returncode != 0:
+            student["pull_success"] = False
+        else:
+            student["pull_success"] = True
+        student["pull_msg"] = res.stdout.decode("utf-8")
+        student["pull_code"] = res.returncode
+        print(f"pulled {student['login']}")
         return student
 
     def foreach_student(self, f):
