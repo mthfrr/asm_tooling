@@ -14,6 +14,7 @@ parser = argparse.ArgumentParser(description='Clone git')
 parser.add_argument('-nb', type=int, required=True, help='tp number')
 parser.add_argument('-c', '--config', type=Path, required=True, help='.yaml config file')
 parser.add_argument('-s', '--students', type=Path, required=True, help='.yaml students list')
+parser.add_argument('-d', '--disable-update', action='store_true', default=False, required=False, help='disable the cloning/pulling')
 args = parser.parse_args()
 
 with open(args.config, "r") as f:
@@ -22,7 +23,8 @@ with open(args.students, "r") as f:
     config.update(yaml.safe_load(f))
 
 ag = auto_git(config, args.nb)
-ag.get_or_update_repos()
+if not args.disable_update:
+    ag.get_or_update_repos()
 ag.foreach_student(ag.is_empty_repo)
 ag.foreach_student(ag.check_AUTHORS)
 ag.foreach_student(ag.check_archi)

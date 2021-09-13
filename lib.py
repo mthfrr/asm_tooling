@@ -188,7 +188,7 @@ class auto_git:
                 output["_all_good"].append(stu)
         self.add_stats(output)
         text_output = yaml.safe_dump(output, indent=4)
-        print(text_output)
+        print(yaml.safe_dump(output["__stat"], indent=4))
         with open(f"report.yaml", "w") as f:
             f.write(text_output)
         return output
