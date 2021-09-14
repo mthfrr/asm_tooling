@@ -40,7 +40,7 @@ def get_commits(stu: Student):
     if not stu.has_dir:
         return stu
     os.chdir(stu.project_dir)
-    res = subprocess.run(f"git log --pretty=format:\"%h %an %ad %s; %b\" --date=format:\"%Y/%m/%d %R\"", shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    res = subprocess.run(f"git log --pretty=format:\"%h %an %ad %s; %b\" --date=format:\"%d/%m/%Y %R\"", shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     if res.returncode != 0:
         logging.error(f"git log {stu.login} failed,\n{res.stdout.decode('utf-8')}")
     else:
