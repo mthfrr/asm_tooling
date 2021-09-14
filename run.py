@@ -6,8 +6,8 @@ import yaml
 from asm import *
 import logging
 from authors import check_AUTHORS
-from git_tools import is_empty_repo
-from file_tools import check_archi
+from git_tools import is_empty_repo, get_commits
+from file_tools import check_archi, count_empty_or_missing
 
 # go to the scripts folder
 abspath = os.path.abspath(__file__)
@@ -38,4 +38,6 @@ if not args.disable_update:
 ag.foreach_student(is_empty_repo)
 ag.foreach_student(check_AUTHORS)
 ag.foreach_student(check_archi)
+ag.foreach_student(count_empty_or_missing)
+ag.foreach_student(get_commits)
 ag.generate_report()

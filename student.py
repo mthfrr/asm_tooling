@@ -17,6 +17,7 @@ class Student():
         
         # computed
         self.file_list = []
+        self.commits = None
         
         # state
         self.has_dir = os.path.isdir(self.project_dir)
@@ -27,6 +28,7 @@ class Student():
         self.AUTHORS = None
         self.trash_files = None
         self.missing_files = None
+        self.empty_or_missing_files = None
         
         
         

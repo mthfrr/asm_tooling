@@ -29,7 +29,7 @@ class auto_asm:
         self.config = config
         self.archi = self.root_folder.stem
         self.archi_file_list = list_files_in_archi(config["tps"][self.archi]["archi"])
-        self.students = {}
+        self.students : dict(str, Student) = {}
         for stu in self.config["students"]:
             tmp = {
                 "login": stu,
@@ -41,7 +41,7 @@ class auto_asm:
                                          root_folder=self.root_folder,
                                          global_allowed_files=config.get("global_allowed_files", []))
         self.foreach_student(get_file_list)
-        self.report_filter = ["repo_empty", "AUTHORS", "trash_files", "missing_files"]
+        self.report_filter = ["repo_empty", "AUTHORS", "trash_files", "missing_files", "commits"]
     
     def get_or_update_repos(self):
         with Pool(processes=6) as pool:
@@ -58,8 +58,8 @@ class auto_asm:
         self.foreach_student(get_file_list)
 
     def foreach_student(self, f):
-        with Pool(processes=6) as pool:
-            res = pool.map(f, filter(lambda x: x.has_dir, self.students.values()))
+        with Pool() as pool:
+            res = pool.map(f, self.students.values())
         for student in res:
             self.students[student.login] = student
 
@@ -101,29 +101,31 @@ class auto_asm:
         return logins
     
     def add_stats(self, output):
-        # TODO: non empty files -> completion %
         res = {}
         total_students = len(self.config["students"])
         
         pb_stu = set()
         
-        pb_stu = pb_stu.union(self.pb_stat_builder("no_clone", res, total_students, lambda x: not x.has_dir))
-        pb_stu = pb_stu.union(self.pb_stat_builder("no_push", res, total_students, lambda x: x.is_empty))
-        pb_stu = pb_stu.union(self.pb_stat_builder("trash_files", res, total_students, lambda x: x.trash_files))
-        pb_stu = pb_stu.union(self.pb_stat_builder("missing_files", res, total_students, lambda x: x.missing_files))
-        pb_stu = pb_stu.union(self.pb_stat_builder("AUTHORS_error", res, total_students, lambda x: x.AUTHORS))
+        pb_stu = pb_stu.union(self.pb_stat_builder("student_w_no_clone", res, total_students, lambda x: not x.has_dir))
+        pb_stu = pb_stu.union(self.pb_stat_builder("student_w_no_push", res, total_students, lambda x: x.is_empty))
+        pb_stu = pb_stu.union(self.pb_stat_builder("student_w_trash_files", res, total_students, lambda x: x.trash_files))
+        pb_stu = pb_stu.union(self.pb_stat_builder("student_w_missing_files", res, total_students, lambda x: x.missing_files))
+        pb_stu = pb_stu.union(self.pb_stat_builder("student_w_AUTHORS_error", res, total_students, lambda x: x.AUTHORS))
         
         val = total_students - len(pb_stu)
         res["all_good"] = (val, f"{val/total_students*100:.2f}%")
         
-        val = sum(map(lambda x: len(x.missing_files), filter(lambda x: x.missing_files, self.students.values())))
+        val = sum(map(lambda x: len(self.archi_file_list) if (not x.has_dir) else (len(x.missing_files) if x.missing_files is not None else 0), self.students.values()))
         res["missing_files_per_student"] = round(val/total_students, 2)
         
         val = sum(map(lambda x: len(x.trash_files), filter(lambda x: x.trash_files, self.students.values())))
         res["trash_files_per_student"] = round(val/total_students, 2)
         
+        val = sum(map(lambda x: len(x.empty_or_missing_files), self.students.values())) / total_students
+        res["empty_or_missing_file_per_student"] = (f"{round(val,2)}/{len(self.archi_file_list)}", f"{val/len(self.archi_file_list)*100:.2f}%")
+        
         output["__stat"] = res
-        output["_all_good"] = list(set(map(lambda x: x.login, self.students.values())).difference(pb_stu))
+        output["_all_good"] = list(set(map(lambda x: x.login, self.students.values())).difference(pb_stu)).sort()
 
 def list_files_in_archi(archi, start_path='', res=None):
     if res == None:

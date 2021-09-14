@@ -2,7 +2,7 @@ import os
 from student import Student
 
 def check_AUTHORS(stu: Student):
-    if stu.is_empty:
+    if not stu.has_dir or stu.is_empty:
         return stu
     os.chdir(stu.project_dir)
     authors_path = next(filter(lambda x: "AUTHORS" in x, stu.archi_file_list))

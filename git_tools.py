@@ -27,9 +27,23 @@ def pull_process(stu: Student):
     return stu
 
 def is_empty_repo(stu: Student):
+    if not stu.has_dir:
+        return stu
     os.chdir(stu.project_dir)
     files = set(stu.file_list).difference(["report.yaml"])
 
     if len(files) == 0:
         stu.is_empty = True
+    return stu
+
+def get_commits(stu: Student):
+    if not stu.has_dir:
+        return stu
+    os.chdir(stu.project_dir)
+    res = subprocess.run(f"git log --pretty=format:\"%h %an %ad %s; %b\" --date=format:\"%Y/%m/%d %R\"", shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    if res.returncode != 0:
+        logging.error(f"git log {stu.login} failed,\n{res.stdout.decode('utf-8')}")
+    else:
+        stu.commits = res.stdout.decode('utf-8').split("\n")
+    
     return stu
