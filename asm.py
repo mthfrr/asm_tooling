@@ -41,6 +41,7 @@ class auto_asm:
                                          root_folder=self.root_folder,
                                          global_allowed_files=config.get("global_allowed_files", []))
         self.foreach_student(get_file_list)
+        self.global_report_filter = ["repo_empty", "AUTHORS", "trash_files", "missing_files"]
         self.report_filter = ["repo_empty", "AUTHORS", "trash_files", "missing_files", "commits"]
     
     def get_or_update_repos(self):
@@ -68,26 +69,40 @@ class auto_asm:
         output = {}
         output["_no_clone"] = []
         for stu in self.students.values():
+            # save in each dir
             output[stu.login] = {}
             for k in self.report_filter:
-                if k in stu.__dict__:
+                if k in stu.__dict__ and stu.__dict__[k] != None:
                     output[stu.login][k] = stu.__dict__[k]
-
-            # save in each dir
             if output[stu.login] != {} and stu.has_dir:
                 with open(f"{stu.project_dir}/report.yaml", "w") as f:
                     f.write(yaml.safe_dump(output[stu.login], indent=4))
+            
             # only in global report
+            output[stu.login] = {}
+            for k in self.global_report_filter:
+                if k in stu.__dict__ and stu.__dict__[k] != None:
+                    output[stu.login][k] = stu.__dict__[k]
             if not stu.has_cloned:
                 output["_no_clone"].append(stu.login)
             if output[stu.login] == {}:
                 del output[stu.login]
                 
-        output["_all_good"] = []
-        for stu in self.students.keys():
-            if stu not in output:
-                output["_all_good"].append(stu)
+        # output["_all_good"] = []
+        # for stu in self.students.keys():
+        #     if stu not in output:
+        #         print(stu)
+        #         output["_all_good"].append(stu)
+        # print(output["_all_good"])
         self.add_stats(output)
+        
+        # save commit messages in one file
+        sorted_student = list(self.students.values())
+        sorted_student.sort(key=lambda x: x.login)
+        with open(f"commits.txt", "w") as f:
+            f.write("\n----\n".join("\n".join(s.commits) for s in sorted_student))
+            f.write("\n")
+
         text_output = yaml.safe_dump(output, indent=4)
         logging.info(f'### Stat ###\n{yaml.safe_dump(output["__stat"], indent=4)}')
         with open(f"report.yaml", "w") as f:
@@ -125,7 +140,7 @@ class auto_asm:
         res["empty_or_missing_file_per_student"] = (f"{round(val,2)}/{len(self.archi_file_list)}", f"{val/len(self.archi_file_list)*100:.2f}%")
         
         output["__stat"] = res
-        output["_all_good"] = list(set(map(lambda x: x.login, self.students.values())).difference(pb_stu)).sort()
+        output["_all_good"] = sorted(list(set(self.students.keys()).difference(pb_stu)))
 
 def list_files_in_archi(archi, start_path='', res=None):
     if res == None:
