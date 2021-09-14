@@ -1,6 +1,4 @@
 *
 !.gitignore
-!run.py
-!lib.py
-!student.py
+!*.py
 !config.yaml

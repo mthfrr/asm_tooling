@@ -45,3 +45,6 @@ tps:
         - is_perfect_number.c
         - is_perfect_number.h
         - main.c
+  tp03:
+    archi:
+      - AUTHORS
