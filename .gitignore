@@ -2,4 +2,5 @@
 !.gitignore
 !run.py
 !lib.py
+!student.py
 !config.yaml

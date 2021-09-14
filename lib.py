@@ -4,7 +4,6 @@ import subprocess
 import os
 import time
 import logging
-import glob
 import yaml
 import json
 import itertools
@@ -78,7 +77,7 @@ class auto_git:
             student["pull_success"] = True
         student["pull_msg"] = res.stdout.decode("utf-8")
         student["pull_code"] = res.returncode
-        print(f"pulled {student['login']}")
+        print(f"pulled {student['login']} {student['pull_msg']}")
         return student
 
     def foreach_student(self, f):
@@ -150,7 +149,7 @@ class auto_git:
         # whitelist
         trash_files.difference_update(self.config["global_allowed_files"])
         
-        trash_files = filter(lambda x: "README" not in x.upper(), trash_files)
+        trash_files = filter(lambda x: "readme" not in x.lower(), trash_files)
 
         trash_files = list(trash_files)
         missing_files = list(missing_files)

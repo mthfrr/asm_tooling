@@ -26,7 +26,7 @@ ag = auto_git(config, args.nb)
 if not args.disable_update:
     ag.get_or_update_repos()
 ag.foreach_student(ag.is_empty_repo)
-ag.foreach_student(ag.check_AUTHORS)
-ag.foreach_student(ag.check_archi)
+# ag.foreach_student(ag.check_AUTHORS)
+# ag.foreach_student(ag.check_archi)
 
 ag.generate_report()
