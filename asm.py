@@ -87,13 +87,7 @@ class auto_asm:
                 output["_no_clone"].append(stu.login)
             if output[stu.login] == {}:
                 del output[stu.login]
-                
-        # output["_all_good"] = []
-        # for stu in self.students.keys():
-        #     if stu not in output:
-        #         print(stu)
-        #         output["_all_good"].append(stu)
-        # print(output["_all_good"])
+
         self.add_stats(output)
         
         # save commit messages in one file
