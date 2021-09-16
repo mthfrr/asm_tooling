@@ -30,7 +30,7 @@ logging.basicConfig(level=numeric_level)
 with open(args.config, "r") as f:
     config = yaml.safe_load(f)
 with open(args.students, "r") as f:
-    config.update(yaml.safe_load(f))
+    config["students"] = f.read().strip().split()
 
 ag = auto_asm(config, args.nb)
 if not args.disable_update:
