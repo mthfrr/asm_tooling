@@ -1,5 +1,5 @@
 import os
-from student import Student
+from src.student import Student
 
 def check_AUTHORS(stu: Student):
     if not stu.has_dir or stu.is_empty:

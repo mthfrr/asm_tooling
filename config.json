@@ -1,0 +1,48 @@
+{
+  "username": "git",
+  "year": 2025,
+  "semester": "s3",
+  "gitpath": "{username}@git.cri.epita.fr:p/{year}-{semester}-tp/tp{nb:02d}-{student}",
+  "path": "tps/tp{nb:02d}",
+  "project_dir": "tp{nb:02d}-{student}",
+  "output_dir": "output",
+  "template_file": "template/template.html",
+  "global_allowed_files": [
+    ".gitignore"
+  ],
+  "tps": {
+    "tp01": {
+      "archi": [
+        "AUTHORS"
+      ]
+    },
+    "tp02": {
+      "archi": [
+        "AUTHORS",
+        { "facto": [ "facto.c", "facto.h", "main.c"] },
+        { "fibo": [ "fibo.c", "fibo.h", "main.c" ] },
+        { "isqrt": [ "isqrt.c", "isqrt.h", "main.c" ] },
+        { "power_of_two": [ "power_of_two.c", "power_of_two.h", "main.c" ] },
+        { "digit_count": [ "digit_count.c", "digit_count.h", "main.c" ] },
+        { "divisor_sum": [ "divisor_sum.c", "divisor_sum.h", "main.c" ] },
+        { "perfect_numbers": [ "divisor_sum.h", "is_perfect_number.c",
+            "is_perfect_number.h", "main.c"]
+        }
+      ],
+      "exos": [
+        { "name": "facto", "files": ["facto/.*"] },
+        { "name": "fibo", "files": ["fibo/.*"] },
+        { "name": "isqrt", "files": ["isqrt/.*"] },
+        { "name": "power_of_two", "files": ["power_of_two/.*"] },
+        { "name": "digit_count", "files": ["digit_count/.*"] },
+        { "name": "divisor_sum", "files": ["divisor_sum/.*"] },
+        { "name": "perfect_numbers", "files": ["perfect_numbers/.*"] }
+      ]
+    },
+    "tp03": {
+      "archi": [
+        "AUTHORS"
+      ]
+    }
+  }
+}

@@ -1,5 +1,9 @@
-*
-!.gitignore
-!*.py
-!Dockerfile
-!config.yaml
+old/
+.vscode/
+__pycache__/
+*.sh
+*.txt
+
+tps/
+moulinettes/
+output/

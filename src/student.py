@@ -7,7 +7,8 @@ class Student():
                  project_dir,
                  root_folder,
                  archi_file_list,
-                 global_allowed_files):
+                 global_allowed_files,
+                 exos):
         self.login = login
         self.gitpath = gitpath
         self.project_dir = project_dir
@@ -18,6 +19,8 @@ class Student():
         # computed
         self.file_list = []
         self.commits = None
+        self.exos = exos
+        self.tree = ""
         
         # state
         self.has_dir = os.path.isdir(self.project_dir)

@@ -1,8 +1,8 @@
 import logging
-from multiprocessing.pool import ApplyResult
 import os
 import subprocess
-from student import Student
+import re
+from src.student import Student
 
 
 def get_file_list(stu: Student):
@@ -16,6 +16,17 @@ def get_file_list(stu: Student):
     output = res.stdout.decode("utf-8").strip()
     if output != "":
         stu.file_list = output.split("\n")
+    return stu
+
+def get_tree(stu: Student):
+    if not stu.has_dir:
+        stu.tree = "no_dir"
+        return stu
+    os.chdir(stu.project_dir)
+    res = subprocess.run(f"tree -a -I .git", shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    if res.returncode != 0:
+        raise Exception(f"tree error for {stu.login}")
+    stu.tree = res.stdout.decode("utf-8").strip()
     return stu
 
 def check_archi(stu: Student):
@@ -55,4 +66,17 @@ def count_empty_or_missing(stu: Student):
                     stu.empty_or_missing_files.append(filename)
         except Exception as e:
             logging.error(f"checking content of {filename} failed\n{e}")
+    return stu
+
+def load_files_to_exos(stu: Student):
+    os.chdir(stu.project_dir)
+    existing_valid_files = set(stu.file_list).intersection(stu.archi_file_list)
+    for i in range(len(stu.exos)):
+        files = stu.exos[i]["files"]
+        loaded_files = []
+        for regex in files:
+            for filename in filter(lambda x: re.match(regex, x) is not None, existing_valid_files):
+                with open(filename, "r") as f:
+                    loaded_files.append(f.read())
+        stu.exos[i]["files"] = loaded_files
     return stu

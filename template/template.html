@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+
+<head>
+    <title>$login</title>
+    <meta charset="UTF-8">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.2.0/build/styles/obsidian.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.2.0/build/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/base-min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #1c1e20;
+            color: #e0e2e4;
+        }
+
+        #app {
+            width: 100vw;
+            height: 100vh;
+            top: 0;
+            left: 0;
+            position: static;
+        }
+
+        div.container {
+            display: grid;
+            width: 100vw;
+            height: 100vh;
+            padding: 0.5em;
+            overflow-y: hidden;
+            justify-items: stretch;
+            justify-content: stretch;
+            gap: 0.5rem 0.5rem;
+            grid-template-columns: minmax(30ch, auto) minmax(88ch, auto) minmax(40ch, 60ch);
+            grid-template-rows: 7vh minmax(10vh, auto) minmax(7vh, auto) minmax(10vh, auto);
+            grid-template-areas: 
+                "nav code1 traces"
+                "commits code1 traces"
+                "authors code1 traces"
+                "tree code1 traces";
+        }
+
+        .grid-item {
+            background-color: #282b2e;
+            border-radius: 0.5em;
+            overflow: auto;
+        }
+
+        .nav_grid {
+            display: grid;
+            grid-template-columns: 1fr 8fr 1fr;
+            grid-template-rows: 1fr 1fr;
+        }
+
+        .nav {
+            padding: 0.5em;
+            text-align: center;
+            justify-self: center;
+            align-self: center;
+        }
+
+        .btn {
+            cursor: pointer;
+            font-weight: bold;
+            user-select: none;
+        }
+        
+        pre {
+            margin: 0;
+            tab-size: 4;
+        }
+
+        pre code.hljs {
+            padding: 0.5em;
+            margin: 0;
+            width: fit-content;
+            height: fit-content;
+            border-radius: 0.5em;
+        }
+
+        a {
+            color: #e0e2e4;
+            text-decoration: none;
+        }
+
+        a:visited {
+            color: #e0e2e4;
+            text-decoration: none;
+        }
+
+        .no-scroll-bar::-webkit-scrollbar {
+            display: none;
+        }
+
+            /* Hide scrollbar for IE, Edge and Firefox */
+        .no-scroll-bar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+
+        .code_list {
+            overflow-x: auto;
+            display: flex;
+            flex-flow: column nowrap;
+            justify-content: flex-start;
+            align-content: flex-start;
+            gap: 0.5rem 0.5rem;
+        }
+
+        .code {
+            min-width: 80ch;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="container">
+            <div class="grid-item nav_grid" style="grid-area: nav;">
+                <a class="nav btn" :href="prev_login+'.html'">&lt;</a>
+                <div class="nav">{{ stu.login }}</div>
+                <a class="nav btn" :href="next_login+'.html'">&gt;</a>
+                <div class="nav btn" onclick="prev_exo()">&lt;</div>
+                <div class="nav">{{ exo_name }}</div>
+                <div class="nav btn" onclick="next_exo()" >&gt;</div>
+            </div>
+            <div class="grid-item no-scroll-bar" style="grid-area: commits;">
+                <pre><code class="language-text">{{stu.commits.join("\n")}}</code></pre>
+            </div>
+            <div class="grid-item no-scroll-bar" style="grid-area: authors;">
+                <pre><code class="language-yaml">Authors: {{ stu.AUTHORS }}
+trashfiles:
+{{ list2text(stu.trash_files) }}
+missing_files:
+{{ list2text(stu.missing_files) }}</code></pre>
+            </div>
+            <div class="grid-item no-scroll-bar" style="grid-area: tree;">
+                <pre><code class="language-text">{{ stu.tree }}</code></pre>
+            </div>
+
+            <!-- SECOND COL -->
+            <div class="code_list no-scroll-bar" style="grid-area: code1;">
+                <pre class="grid-item code" v-for="code in exo_files" :key="hashCode(code)"
+                ><code class="language-c">{{ code }}</code></pre>
+            </div>
+            <!-- THIRD COL -->
+            <div class="grid-item" style="grid-area: traces;">
+                <pre><code class="language-text">placeholder</code></pre>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="application/javascript">
+    var app = new Vue({
+        el: '#app',
+        data: {
+            stu: $stu,
+            logins: $logins,
+            next_login: null,
+            prev_login: null,
+            exo_index: 0,
+            exo_files: null,
+            exo_name: null,
+            list2text: (l) => {
+                if (l != null)
+                    return l.map((el) => "- "+el).join("\n")
+                else
+                    return ""
+            },
+            get_exo: null,
+            hashCode: s => s.split('').reduce((a,b)=>{a=((a<<5)-a)+b.charCodeAt(0);return a&a},0),
+        },
+    });
+    app.get_exo = (i) => {
+        return [app.stu.exos[i].name, app.stu.exos[i].files];
+    }
+    app.exo_name = app.stu.exos[app.exo_index].name
+    app.exo_files = app.stu.exos[app.exo_index].files
+    app.next_login = app.logins[(app.logins.indexOf(app.stu.login)+1)%app.logins.length];
+    app.prev_login = app.logins[(app.logins.indexOf(app.stu.login)-1+app.logins.length)%app.logins.length];
+    function new_id() {
+        return app.id_count++;
+    }
+    function next_exo() {
+        app.exo_index = (app.exo_index+1)%app.stu.exos.length;
+        update_exo()
+    }
+    function prev_exo() {
+        app.exo_index = (app.exo_index+app.stu.exos.length-1)%app.stu.exos.length;
+        update_exo()
+    }
+    function update_exo() {
+        app.exo_name = app.stu.exos[app.exo_index].name
+        // for (i in app.exo_files.length) {
+        //     app.exo_files.pop()
+        // }
+        // for (i in app.stu.exos[app.exo_index].files) {
+        //     app.exo_files.push(app.stu.exos[app.exo_index].files[i])
+        // }
+        app.exo_files = app.stu.exos[app.exo_index].files
+        app.exo_files.sort()
+        Vue.nextTick(function () {
+            hljs.highlightAll();
+        })
+    }
+</script>
