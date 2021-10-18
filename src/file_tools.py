@@ -64,6 +64,8 @@ def count_empty_or_missing(stu: Student):
             with open(filename, "r") as f:
                 if f.read() == "": # adding empty
                     stu.empty_or_missing_files.append(filename)
+        except UnicodeDecodeError:
+            pass
         except Exception as e:
             logging.error(f"checking content of {filename} failed\n{e}")
     return stu
@@ -76,6 +78,7 @@ def load_files_to_exos(stu: Student):
         loaded_files = []
         for regex in files:
             for filename in filter(lambda x: re.match(regex, x) is not None, existing_valid_files):
+                logging.debug(f"loading file: {filename}")
                 with open(filename, "r") as f:
                     loaded_files.append(f.read())
         stu.exos[i]["files"] = loaded_files

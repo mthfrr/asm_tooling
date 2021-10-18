@@ -63,6 +63,8 @@
         }
       ],
       "exos": [
+        { "name": "arrays", "files": ["^arrays/.*[^g]$"] },
+        { "name": "sdl", "files": ["^sdl/.*[^g]$"] }
       ]
     }
   }
