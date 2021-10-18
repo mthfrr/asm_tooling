@@ -41,7 +41,28 @@
     },
     "tp03": {
       "archi": [
-        "AUTHORS"
+        "AUTHORS",
+        { 
+          "arrays": [
+          "array_min_max.c",
+          "array_searching.c",
+          "array_sorting.c",
+          "Makefile",
+          "tests_tools.h"
+          ]
+        },
+        {
+          "sdl": [
+          "display.c",
+          "grayscale.c",
+          "Makefile",
+          "my_image.jpg",
+          "pixel_operations.c",
+          "pixel_operations.h"
+          ]
+        }
+      ],
+      "exos": [
       ]
     }
   }
