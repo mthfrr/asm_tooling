@@ -25,7 +25,7 @@ def get_tree(stu: Student):
     os.chdir(stu.project_dir)
     res = subprocess.run(f"tree -a -I .git", shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     if res.returncode != 0:
-        raise Exception(f"tree error for {stu.login}")
+        raise Exception(f"tree error for {stu.login}\n{res.stdout.decode('utf-8').strip()}")
     stu.tree = res.stdout.decode("utf-8").strip()
     return stu
 
