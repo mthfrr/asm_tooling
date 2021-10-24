@@ -8,6 +8,7 @@ from src.asm import *
 from src.authors import check_AUTHORS
 from src.git_tools import is_empty_repo, get_commits
 from src.file_tools import check_archi, count_empty_or_missing, get_tree
+from src.moulinette import moulinette
 
 
 # go to the scripts folder
@@ -43,5 +44,5 @@ ag.foreach_student(check_archi)
 ag.foreach_student(count_empty_or_missing)
 ag.foreach_student(get_commits)
 ag.foreach_student(get_tree)
-# ag.generate_report()
+ag.foreach_student(moulinette)
 ag.generate_html()

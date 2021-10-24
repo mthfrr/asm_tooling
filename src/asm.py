@@ -68,7 +68,8 @@ class auto_asm:
                     output[stu.login][k] = stu.__dict__[k]
             if output[stu.login] != {} and stu.has_dir:
                 with open(f"{stu.project_dir}/report.yaml", "w") as f:
-                    f.write(json_dumps(output[stu.login], indent=4))
+                    # f.write(json_dumps(output[stu.login], indent=4))
+                    pass
             
             # only in global report
             output[stu.login] = {}
@@ -93,6 +94,7 @@ class auto_asm:
         logging.info(f'### Stat ###\n{json_dumps(output["__stat"], indent=4)}')
         with open(f"report.json", "w") as f:
             f.write(text_output)
+        os.chdir("../..")
         return output
 
     def generate_html(self):

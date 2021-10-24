@@ -80,6 +80,6 @@ def load_files_to_exos(stu: Student):
             for filename in filter(lambda x: re.match(regex, x) is not None, existing_valid_files):
                 logging.debug(f"loading file: {filename}")
                 with open(filename, "r") as f:
-                    loaded_files.append(f.read())
+                    loaded_files.append(f"// {filename} //\n{f.read()}")
         stu.exos[i]["files"] = loaded_files
     return stu

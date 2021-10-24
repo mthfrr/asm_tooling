@@ -4,7 +4,8 @@
     <title>$login</title>
     <meta charset="UTF-8">
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.2.0/build/styles/obsidian.min.css">
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.2.0/build/styles/obsidian.min.css">
     <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.2.0/build/highlight.min.js"></script>
     <script>hljs.highlightAll();</script>
     <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/base-min.css">
@@ -35,9 +36,9 @@
             justify-items: stretch;
             justify-content: stretch;
             gap: 0.5rem 0.5rem;
-            grid-template-columns: minmax(30ch, auto) minmax(88ch, auto) minmax(40ch, 60ch);
+            grid-template-columns: 35ch minmax(88ch, auto) minmax(40ch, 80ch);
             grid-template-rows: 5rem minmax(7rem, auto) minmax(6rem, auto) auto;
-            grid-template-areas: 
+            grid-template-areas:
                 "nav code1 traces"
                 "commits code1 traces"
                 "authors code1 traces"
@@ -68,7 +69,7 @@
             font-weight: bold;
             user-select: none;
         }
-        
+
         pre {
             margin: 0;
             tab-size: 4;
@@ -96,10 +97,12 @@
             display: none;
         }
 
-            /* Hide scrollbar for IE, Edge and Firefox */
+        /* Hide scrollbar for IE, Edge and Firefox */
         .no-scroll-bar {
-            -ms-overflow-style: none;  /* IE and Edge */
-            scrollbar-width: none;  /* Firefox */
+            -ms-overflow-style: none;
+            /* IE and Edge */
+            scrollbar-width: none;
+            /* Firefox */
         }
 
         .code_list {
@@ -127,7 +130,7 @@
                 <a class="nav btn" :href="next_login+'.html'">&gt;</a>
                 <div class="nav btn" onclick="prev_exo()">&lt;</div>
                 <div class="nav">{{ exo_name }}</div>
-                <div class="nav btn" onclick="next_exo()" >&gt;</div>
+                <div class="nav btn" onclick="next_exo()">&gt;</div>
             </div>
             <div class="grid-item no-scroll-bar" style="grid-area: commits;">
                 <pre><code class="language-text">{{stu.commits.join("\n")}}</code></pre>
@@ -145,17 +148,66 @@ missing_files:
 
             <!-- SECOND COL -->
             <div class="code_list no-scroll-bar" style="grid-area: code1;">
-                <pre class="grid-item code" v-for="code in exo_files" :key="hashCode(code)"
-                ><code class="language-c">{{ code }}</code></pre>
+                <pre class="grid-item code" v-for="code in exo_files"
+                    :key="hashCode(code)"><code class="language-c">{{ code }}</code></pre>
             </div>
             <!-- THIRD COL -->
             <div class="grid-item" style="grid-area: traces;">
-                <pre><code class="language-text">placeholder</code></pre>
+                <ul>
+                <tree-item class="item" :item="stu.trace"
+                ></tree-item>
+                </ul>
+                <!-- <pre><code class="language-text">{{ stu.trace }}</code></pre> -->
             </div>
         </div>
     </div>
 </body>
+
+<script type="text/x-template" id="item-template">
+    <li>
+      <div @click="toggle">
+        <div v-if="item.color == 'red'" style="color: red;">{{ item.name }}</div>
+        <div v-if="item.color == 'orange'" style="color: orange;">{{ item.name }}</div>
+        <div v-if="item.color == 'green'" style="color: green;">{{ item.name }}</div>
+        <pre v-if="item.data"><code class="language-text">{{ item.data }}</code></pre>
+      </div>
+
+      <ul v-show="isOpen">
+        <tree-item
+          class="item"
+          v-for="(child, index) in item.childs"
+          :key="index"
+          :item="child"
+        ></tree-item>
+      </ul>
+    </li>
+  </script>
+
 <script type="application/javascript">
+    Vue.component("tree-item", {
+        template: "#item-template",
+        props: {
+            item: Object
+        },
+        data: function () {
+            return {
+                isOpen: false
+            };
+        },
+        computed: {
+          isFolder: function () {
+            return this.item.childs && this.item.childs.length;
+          }
+        },
+        methods: {
+          toggle: function () {
+            if (this.isFolder) {
+              this.isOpen = !this.isOpen;
+            }
+          },
+        }
+    });
+
     var app = new Vue({
         el: '#app',
         data: {
@@ -168,12 +220,12 @@ missing_files:
             exo_name: null,
             list2text: (l) => {
                 if (l != null)
-                    return l.map((el) => "- "+el).join("\n")
+                    return l.map((el) => "- " + el).join("\n")
                 else
                     return ""
             },
             get_exo: null,
-            hashCode: s => s.split('').reduce((a,b)=>{a=((a<<5)-a)+b.charCodeAt(0);return a&a},0),
+            hashCode: s => s.split('').reduce((a, b) => { a = ((a << 5) - a) + b.charCodeAt(0); return a & a }, 0),
         },
     });
     app.get_exo = (i) => {
@@ -181,17 +233,17 @@ missing_files:
     }
     app.exo_name = app.stu.exos[app.exo_index].name
     app.exo_files = app.stu.exos[app.exo_index].files
-    app.next_login = app.logins[(app.logins.indexOf(app.stu.login)+1)%app.logins.length];
-    app.prev_login = app.logins[(app.logins.indexOf(app.stu.login)-1+app.logins.length)%app.logins.length];
+    app.next_login = app.logins[(app.logins.indexOf(app.stu.login) + 1) % app.logins.length];
+    app.prev_login = app.logins[(app.logins.indexOf(app.stu.login) - 1 + app.logins.length) % app.logins.length];
     function new_id() {
         return app.id_count++;
     }
     function next_exo() {
-        app.exo_index = (app.exo_index+1)%app.stu.exos.length;
+        app.exo_index = (app.exo_index + 1) % app.stu.exos.length;
         update_exo()
     }
     function prev_exo() {
-        app.exo_index = (app.exo_index+app.stu.exos.length-1)%app.stu.exos.length;
+        app.exo_index = (app.exo_index + app.stu.exos.length - 1) % app.stu.exos.length;
         update_exo()
     }
     function update_exo() {
