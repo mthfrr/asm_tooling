@@ -63,8 +63,10 @@
         }
       ],
       "exos": [
-        { "name": "arrays", "files": ["^arrays/.*[^gh]$"] },
-        { "name": "sdl", "files": ["^sdl/.*[^gh]$"] }
+        { "name": "arrays_min_max", "files": [".*/array_min_max.c"] },
+        { "name": "arrays_search", "files": [".*/array_searching.c"] },
+        { "name": "arrays_sort", "files": [".*/array_sorting.c"] },
+        { "name": "sdl", "files": ["^sdl/.*\\.[^gh]$"] }
       ]
     }
   }

@@ -126,7 +126,7 @@
         <div class="container">
             <div class="grid-item nav_grid" style="grid-area: nav;">
                 <a class="nav btn" :href="prev_login+'.html'">&lt;</a>
-                <div class="nav">{{ stu.login }}</div>
+                <a class="nav" :href="stu.cri">{{ stu.login }}</a>
                 <a class="nav btn" :href="next_login+'.html'">&gt;</a>
                 <div class="nav btn" onclick="prev_exo()">&lt;</div>
                 <div class="nav">{{ exo_name }}</div>

@@ -10,6 +10,7 @@ class Student():
                  global_allowed_files,
                  exos):
         self.login = login
+        self.cri = f"https://cri.epita.fr/users/{login}/"
         self.gitpath = gitpath
         self.project_dir = project_dir
         self.root_folder = root_folder
