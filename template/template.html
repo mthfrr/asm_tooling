@@ -169,10 +169,10 @@ missing_files:
         <div v-if="item.color == 'red'" style="color: red;">{{ item.name }}</div>
         <div v-if="item.color == 'orange'" style="color: orange;">{{ item.name }}</div>
         <div v-if="item.color == 'green'" style="color: green;">{{ item.name }}</div>
-        <pre v-if="item.data"><code class="language-text">{{ item.data }}</code></pre>
       </div>
 
       <ul v-show="isOpen">
+        <pre v-if="item.data"><code class="language-text">{{ item.data }}</code></pre>
         <tree-item
           class="item"
           v-for="(child, index) in item.childs"
@@ -201,7 +201,7 @@ missing_files:
         },
         methods: {
           toggle: function () {
-            if (this.isFolder) {
+            if (true) {
               this.isOpen = !this.isOpen;
             }
           },
