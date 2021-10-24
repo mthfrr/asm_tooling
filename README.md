@@ -9,3 +9,13 @@ login2
 ```
 
 Execute `run.py`
+
+## Moulinette integration
+```sh
+mkdir moulinette
+cd moulinette
+git clone git@...
+cp ../run.sh .
+ln -s ../tps/tpXX students
+./run.sh
+```
