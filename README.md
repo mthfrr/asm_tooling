@@ -10,7 +10,7 @@ login2
 
 Execute `run.py`
 
-## Moulinette integration
+## Moulinette integration (requiered)
 ```sh
 mkdir moulinette
 cd moulinette
