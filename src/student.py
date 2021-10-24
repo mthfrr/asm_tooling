@@ -22,7 +22,7 @@ class Student():
         self.commits = None
         self.exos = exos
         self.tree = ""
-        self.trace = ""
+        self.trace = "not enable"
         
         # state
         self.has_dir = os.path.isdir(self.project_dir)
