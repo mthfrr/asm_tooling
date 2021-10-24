@@ -39,6 +39,7 @@ ag = auto_asm(config, args.nb)
 if not args.disable_update:
     ag.get_or_update_repos()
 ag.foreach_student(is_empty_repo)
+ag.foreach_student(git_clean)
 ag.foreach_student(check_AUTHORS)
 ag.foreach_student(check_archi)
 ag.foreach_student(count_empty_or_missing)

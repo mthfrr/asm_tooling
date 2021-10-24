@@ -52,3 +52,12 @@ def get_commits(stu: Student):
         stu.commits = res.stdout.decode('utf-8').split("\n")
     
     return stu
+
+def git_clean(stu: Student):
+    if not stu.has_dir:
+        return stu
+    os.chdir(stu.project_dir)
+    res = subprocess.run(f"git clean -f", shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    if res.returncode != 0:
+        logging.error(f"git clean {stu.login} failed,\n{res.stdout.decode('utf-8')}")
+    return stu
