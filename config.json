@@ -163,7 +163,8 @@
             "^sdl/.*\\.[^gh]$"
           ]
         }
-      ]
+      ],
+      "mouli": "git@gitlab.cri.epita.fr:prepa/asm/tests/tests-pw_03_arrays_sdl.git"
     },
     "tp04": {
       "archi": [
@@ -199,7 +200,7 @@
         {
           "name": "matrices",
           "files": [
-            "^matrices/.*\\.[ch]$"
+            "^matrices/matrix.c$"
           ]
         },
         {

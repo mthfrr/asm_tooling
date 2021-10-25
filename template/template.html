@@ -133,7 +133,7 @@
                 <div class="nav btn" onclick="next_exo()">&gt;</div>
             </div>
             <div class="grid-item no-scroll-bar" style="grid-area: commits;">
-                <pre><code class="language-text">{{stu.commits.join("\n")}}</code></pre>
+                <pre><code class="language-text">{{ myjoin(stu.commits) }}</code></pre>
             </div>
             <div class="grid-item no-scroll-bar" style="grid-area: authors;">
                 <pre><code class="language-yaml">Authors: {{ stu.AUTHORS }}
@@ -223,6 +223,12 @@ missing_files:
                     return l.map((el) => "- " + el).join("\n")
                 else
                     return ""
+            },
+            myjoin: (l) => {
+                if (l)
+                    return l.join("\n")
+                else
+                    return "empty"
             },
             get_exo: null,
             hashCode: s => s.split('').reduce((a, b) => { a = ((a << 5) - a) + b.charCodeAt(0); return a & a }, 0),
