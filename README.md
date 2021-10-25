@@ -20,3 +20,7 @@ cp ../run.sh .
 ln -s ../tps/tpXX students
 ./run.sh
 ```
+
+## TODO
+
+- [] rm result before running moulinette
