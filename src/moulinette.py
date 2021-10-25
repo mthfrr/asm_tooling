@@ -10,18 +10,24 @@ import re
 def folder_name_from_git(link):
     return re.sub(r"^.*\/(.*)\.git$", r"\1", link)
 
+def clone_mouli(link):
+    if Path(folder_name_from_git(link)).exists():
+        return
+    res = subprocess.run(f"git clone {link}", shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    if res.returncode != 0:
+        logging.error(f"mouli clone error:\n{res.stdout.decode('utf-8')}")
+        raise Exception()
+
 def clone_mouli_and_conf(link, root_path):
     os.chdir(root_path)
     if not (Path(os.curdir) / "moulinettes").exists():
         os.mkdir("moulinettes")
     os.chdir("moulinettes")
-    res = subprocess.run(f"git clone {link}", shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-    if res.returncode != 0:
-        logging.error(f"mouli clone error:\n{res.stdout.decode('utf-8')}")
-        return 1
+    clone_mouli(link)
     os.chdir(folder_name_from_git(link))
     # cpy run.sh
     # build docker
+    os.chdir(root_path)
     return
 
 def mouli_init(aa: auto_asm):
@@ -29,10 +35,9 @@ def mouli_init(aa: auto_asm):
     if link == None:
         logging.error("Moulinette git link not configured")
         raise Exception()
-    print(folder_name_from_git(link))
-    exit(1)
     clone_mouli_and_conf(link, aa.root)
-    
+    os.chdir(Path(os.curdir) / "moulinettes" / folder_name_from_git(link))
+    print(os.curdir)
     return 0
 
 def set_color(trace):
