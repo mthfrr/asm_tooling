@@ -19,6 +19,9 @@ def clone_mouli_and_conf(link, root_path):
     if res.returncode != 0:
         logging.error(f"mouli clone error:\n{res.stdout.decode('utf-8')}")
         return 1
+    os.chdir(folder_name_from_git(link))
+    # cpy run.sh
+    # build docker
     return
 
 def mouli_init(aa: auto_asm):

@@ -184,8 +184,10 @@
                 "Makefile",
                 "mix.c",
                 "mix.h"
-              ],
-              "substring": [
+              ]
+            },
+            {
+              "substrings": [
                 "main.c",
                 "Makefile"
               ]
@@ -207,9 +209,9 @@
           ]
         },
         {
-          "name": "substring",
+          "name": "substrings",
           "files": [
-            "^strings/substring/.*$"
+            "^strings/substrings/.*$"
           ]
         }
       ],
