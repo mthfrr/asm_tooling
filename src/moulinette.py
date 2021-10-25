@@ -8,7 +8,7 @@ import subprocess
 import re
 
 def folder_name_from_git(link):
-    return re.sub(r"^.*/(.*)\\.git$", r"\\1", link)
+    return re.sub(r"^.*\/(.*)\.git$", r"\1", link)
 
 def clone_mouli_and_conf(link, root_path):
     os.chdir(root_path)
