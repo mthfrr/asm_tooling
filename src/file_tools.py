@@ -71,13 +71,13 @@ def count_empty_or_missing(stu: Student):
     return stu
 
 def load_files_to_exos(stu: Student):
-    os.chdir(stu.project_dir)
     existing_valid_files = set(stu.file_list).intersection(stu.archi_file_list)
     for i in range(len(stu.exos)):
         files = stu.exos[i]["files"]
         loaded_files = []
         for regex in files:
             for filename in filter(lambda x: re.match(regex, x) is not None, existing_valid_files):
+                os.chdir(stu.project_dir)
                 logging.debug(f"loading file: {filename}")
                 with open(filename, "r") as f:
                     loaded_files.append(f"// {filename} //\n{f.read()}")

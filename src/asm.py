@@ -13,6 +13,7 @@ from src.template_gen import template_html
 class auto_asm:
     def __init__(self, config, tp_num):
         self.tp_num = tp_num
+        self.root = os.curdir
         self.root_folder = Path(config["path"].format(nb=tp_num)).absolute()
         self.tp_subfolders = []
         Path(self.root_folder).mkdir(parents=True, exist_ok=True)

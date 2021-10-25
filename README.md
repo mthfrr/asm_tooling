@@ -15,6 +15,7 @@ Execute `run.py`
 mkdir moulinette
 cd moulinette
 git clone git@...
+cd pw_moui_folder
 cp ../run.sh .
 ln -s ../tps/tpXX students
 ./run.sh

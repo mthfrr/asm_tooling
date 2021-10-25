@@ -19,55 +19,201 @@
     "tp02": {
       "archi": [
         "AUTHORS",
-        { "facto": [ "facto.c", "facto.h", "main.c"] },
-        { "fibo": [ "fibo.c", "fibo.h", "main.c" ] },
-        { "isqrt": [ "isqrt.c", "isqrt.h", "main.c" ] },
-        { "power_of_two": [ "power_of_two.c", "power_of_two.h", "main.c" ] },
-        { "digit_count": [ "digit_count.c", "digit_count.h", "main.c" ] },
-        { "divisor_sum": [ "divisor_sum.c", "divisor_sum.h", "main.c" ] },
-        { "perfect_numbers": [ "divisor_sum.h", "is_perfect_number.c",
-            "is_perfect_number.h", "main.c"]
+        {
+          "facto": [
+            "facto.c",
+            "facto.h",
+            "main.c"
+          ]
+        },
+        {
+          "fibo": [
+            "fibo.c",
+            "fibo.h",
+            "main.c"
+          ]
+        },
+        {
+          "isqrt": [
+            "isqrt.c",
+            "isqrt.h",
+            "main.c"
+          ]
+        },
+        {
+          "power_of_two": [
+            "power_of_two.c",
+            "power_of_two.h",
+            "main.c"
+          ]
+        },
+        {
+          "digit_count": [
+            "digit_count.c",
+            "digit_count.h",
+            "main.c"
+          ]
+        },
+        {
+          "divisor_sum": [
+            "divisor_sum.c",
+            "divisor_sum.h",
+            "main.c"
+          ]
+        },
+        {
+          "perfect_numbers": [
+            "divisor_sum.h",
+            "is_perfect_number.c",
+            "is_perfect_number.h",
+            "main.c"
+          ]
         }
       ],
       "exos": [
-        { "name": "facto", "files": ["facto/.*"] },
-        { "name": "fibo", "files": ["fibo/.*"] },
-        { "name": "isqrt", "files": ["isqrt/.*"] },
-        { "name": "power_of_two", "files": ["power_of_two/.*"] },
-        { "name": "digit_count", "files": ["digit_count/.*"] },
-        { "name": "divisor_sum", "files": ["divisor_sum/.*"] },
-        { "name": "perfect_numbers", "files": ["perfect_numbers/.*"] }
+        {
+          "name": "facto",
+          "files": [
+            "facto/.*"
+          ]
+        },
+        {
+          "name": "fibo",
+          "files": [
+            "fibo/.*"
+          ]
+        },
+        {
+          "name": "isqrt",
+          "files": [
+            "isqrt/.*"
+          ]
+        },
+        {
+          "name": "power_of_two",
+          "files": [
+            "power_of_two/.*"
+          ]
+        },
+        {
+          "name": "digit_count",
+          "files": [
+            "digit_count/.*"
+          ]
+        },
+        {
+          "name": "divisor_sum",
+          "files": [
+            "divisor_sum/.*"
+          ]
+        },
+        {
+          "name": "perfect_numbers",
+          "files": [
+            "perfect_numbers/.*"
+          ]
+        }
       ]
     },
     "tp03": {
       "archi": [
         "AUTHORS",
-        { 
+        {
           "arrays": [
-          "array_min_max.c",
-          "array_searching.c",
-          "array_sorting.c",
-          "Makefile",
-          "tests_tools.h"
+            "array_min_max.c",
+            "array_searching.c",
+            "array_sorting.c",
+            "Makefile",
+            "tests_tools.h"
           ]
         },
         {
           "sdl": [
-          "display.c",
-          "grayscale.c",
-          "Makefile",
-          "my_image.jpg",
-          "pixel_operations.c",
-          "pixel_operations.h"
+            "display.c",
+            "grayscale.c",
+            "Makefile",
+            "my_image.jpg",
+            "pixel_operations.c",
+            "pixel_operations.h"
           ]
         }
       ],
       "exos": [
-        { "name": "arrays_min_max", "files": [".*/array_min_max.c"] },
-        { "name": "arrays_search", "files": [".*/array_searching.c"] },
-        { "name": "arrays_sort", "files": [".*/array_sorting.c"] },
-        { "name": "sdl", "files": ["^sdl/.*\\.[^gh]$"] }
+        {
+          "name": "arrays_min_max",
+          "files": [
+            ".*/array_min_max.c"
+          ]
+        },
+        {
+          "name": "arrays_search",
+          "files": [
+            ".*/array_searching.c"
+          ]
+        },
+        {
+          "name": "arrays_sort",
+          "files": [
+            ".*/array_sorting.c"
+          ]
+        },
+        {
+          "name": "sdl",
+          "files": [
+            "^sdl/.*\\.[^gh]$"
+          ]
+        }
       ]
+    },
+    "tp04": {
+      "archi": [
+        "AUTHORS",
+        {
+          "matrices": [
+            "main.c",
+            "matrix.h",
+            "matrix.c",
+            "Makefile"
+          ]
+        },
+        {
+          "strings": [
+            {
+              "jumbled_text": [
+                "main.c",
+                "Makefile",
+                "mix.c",
+                "mix.h"
+              ],
+              "substring": [
+                "main.c",
+                "Makefile"
+              ]
+            }
+          ]
+        }
+      ],
+      "exos": [
+        {
+          "name": "matrices",
+          "files": [
+            "^matrices/.*\\.[ch]$"
+          ]
+        },
+        {
+          "name": "jumbled_text",
+          "files": [
+            "^strings/jumbled_text/.*$"
+          ]
+        },
+        {
+          "name": "substring",
+          "files": [
+            "^strings/substring/.*$"
+          ]
+        }
+      ],
+      "mouli": "git@gitlab.cri.epita.fr:prepa/asm/tests/tests-pw_04_matrices_strings.git"
     }
   }
 }
