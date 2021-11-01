@@ -200,7 +200,7 @@
         {
           "name": "matrices",
           "files": [
-            "^matrices/matrix.c$"
+            "^matrices/.*.c$"
           ]
         },
         {

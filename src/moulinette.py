@@ -26,6 +26,7 @@ def clone_mouli(link):
 def docker_build():
     if Path("Dockerfile").exists():
         return
+    logging.info("docker build")
     ln_s("docker/Dockerfile", "Dockerfile")
     res = subprocess.run(f"sudo docker build -t moulinette .", shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     if res.returncode != 0:
@@ -53,7 +54,6 @@ def mouli_init(aa: auto_asm):
     os.chdir(Path("moulinettes") / folder_name_from_git(link))
     ln_s(f"../../tps/{aa.archi}", "students")
     os.chdir(aa.root)
-    logging.info("mouli init done")
     return 0
 
 def set_color(trace):
@@ -81,15 +81,26 @@ def run_mouli(stu: Student, tp_num):
         .glob(glob_path))
     os.chdir(mouli_path[0])
     # start
+    logging.info(f"mouli rm old stuff {stu.login}")
+    res = subprocess.run(f"sudo rm -rf {mouli_path[0]}/results/{str(Path(stu.project_dir).name)}", shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    if res.returncode != 0:
+        logging.error(f"rm -rf error {stu.login}:\n{res.stdout.decode('utf-8')}")
+        raise Exception("rm prev results")
+    
+    logging.info(f"mouli start.sh {stu.login}")
     res = subprocess.run(f"sudo ./start.sh students/{str(Path(stu.project_dir).name)}", shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     if res.returncode != 0:
         logging.error(f"start error {stu.login}:\n{res.stdout.decode('utf-8')}")
         raise Exception("start")
+    
+    logging.info(f"mouli chown {stu.login}")
     res = subprocess.run(f"sudo chown \"$USER:$USER\" -R results/{str(Path(stu.project_dir).name)}", shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     if res.returncode != 0:
         logging.error(f"chown error {stu.login}:\n{res.stdout.decode('utf-8')}")
         raise Exception("chown")
     os.chdir("results")
+    
+    logging.info(f"mouli gen trace {stu.login}")
     res = subprocess.run(f"../docker/generate_traces_json.py {str(Path(stu.project_dir).name)}", shell=True, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
     # if res.returncode != 0:
     #     logging.error(f"./generate_traces_json.py error {stu.login}:\n{res.stdout.decode('utf-8')}")
