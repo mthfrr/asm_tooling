@@ -13,7 +13,7 @@ def template_html(students: Student, config):
         res = template.safe_substitute(
             stu=json_dumps(stu.__dict__),
             login=login,
-            logins=sorted(list(students.keys())),
+            logins=list(students.keys()),
             char80="0"*80,
             exo_index=0
         )
