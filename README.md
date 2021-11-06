@@ -16,11 +16,11 @@ $ ./run.py
 usage: run.py [-h] -nb NB -c CONFIG -s STUDENTS [-u] [-m] [-log LOG]
 ```
 ### Arguments
-NB: number of the tp
-CONFIG: config.json
-STUDENTS: file containing student logins
--u : clone or pull repos
--m : clone / run moulinette and generate outputs
+- NB: number of the tp
+- CONFIG: config.json
+- STUDENTS: file containing student logins
+- -u : clone or pull repos
+- -m : clone / run moulinette and generate outputs (__warning: docker service running required__)
 
 ### Use results
 Open in any browser the html file in `output/`
