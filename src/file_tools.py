@@ -77,16 +77,15 @@ def load_files_to_exos(stu: Student):
     for i in range(len(stu.exos)):
         files = stu.exos[i]["files"]
         loaded_files = []
-        try:
-            for regex in files:
+        for regex in files:
+            try:
                 for filename in filter(lambda x: re.match(regex, x) is not None, existing_valid_files):
                     os.chdir(stu.project_dir)
                     logging.debug(f"loading file: {filename}")
                     with open(filename, "r") as f:
                         loaded_files.append(f"// {filename} //\n{f.read()}")
-        except Exception as e:
-            logging.error(f"LOADING FILES ERROR {stu.login}")
-            raise e
+            except Exception as e:
+                logging.error(f"LOADING FILES ERROR {stu.login} re: {regex[:10]}...:\n{e}")
                 
         stu.exos[i]["files"] = loaded_files
     stu.file_loaded = True
