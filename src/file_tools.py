@@ -71,6 +71,8 @@ def count_empty_or_missing(stu: Student):
     return stu
 
 def load_files_to_exos(stu: Student):
+    if (stu.file_loaded):
+        return stu
     existing_valid_files = set(stu.file_list).intersection(stu.archi_file_list)
     for i in range(len(stu.exos)):
         files = stu.exos[i]["files"]
@@ -87,4 +89,5 @@ def load_files_to_exos(stu: Student):
             raise e
                 
         stu.exos[i]["files"] = loaded_files
+    stu.file_loaded = True
     return stu

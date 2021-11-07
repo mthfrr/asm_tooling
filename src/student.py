@@ -21,6 +21,7 @@ class Student():
         self.file_list = []
         self.commits = None
         self.exos = exos
+        self.file_loaded = False
         self.tree = ""
         self.trace = "not enable"
         
