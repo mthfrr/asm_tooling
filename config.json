@@ -245,31 +245,31 @@
             "exos": [
                 {
                     "files": [
-                        "^warmup/swap.c$"
+                        "warmup/swap.c"
                     ],
                     "name": "warmup - swap"
                 },
                 {
                     "files": [
-                        "^warmup/sum_of_divisors.c$"
+                        "warmup/sum_of_divisors.c"
                     ],
                     "name": "warmup - sum_of_divisors"
                 },
                 {
                     "files": [
-                        "^warmup/arithmetic.c$"
+                        "warmup/arithmetic.c"
                     ],
                     "name": "warmup - arithmetic"
                 },
                 {
                     "files": [
-                        "^arrays/[^m].*.c$"
+                        "arrays/[^m].*\\.c"
                     ],
                     "name": "arrays"
                 },
                 {
                     "files": [
-                        "^strings/.*$"
+                        "strings/.*"
                     ],
                     "name": "strings"
                 }
