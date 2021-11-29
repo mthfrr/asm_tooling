@@ -275,6 +275,52 @@
                 }
             ],
             "mouli": "git@gitlab.cri.epita.fr:prepa/asm/tests/tests-pw_05_pointers.git"
+        },
+        "tp06": {
+            "archi": [
+                "AUTHORS",
+                "disc.c",
+                "duel.c",
+                "duel.glade",
+                "Makefile",
+                "paddles.c",
+                "plain.c",
+                "plain.glade",
+                "state.c"
+            ],
+            "exos": [
+                {
+                    "files": [
+                        "^plain.c$"
+                    ],
+                    "name": "plain"
+                },
+                {
+                    "files": [
+                        "^disc.c$"
+                    ],
+                    "name": "disc"
+                },
+                {
+                    "files": [
+                        "^state.c$"
+                    ],
+                    "name": "states"
+                },
+                {
+                    "files": [
+                        "^paddles.c$"
+                    ],
+                    "name": "paddles"
+                },
+                {
+                    "files": [
+                        "^duel.c$"
+                    ],
+                    "name": "duel"
+                }
+
+            ]
         }
     },
     "username": "git",

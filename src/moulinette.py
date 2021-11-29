@@ -49,12 +49,13 @@ def mouli_init(aa: auto_asm):
     link = aa.config["tps"][aa.archi].get("mouli", None)
     if link == None:
         logging.error("Moulinette git link not configured")
-        raise Exception()
+        return 0
+
     clone_mouli_and_conf(link, aa.root)
     os.chdir(Path("moulinettes") / folder_name_from_git(link))
     ln_s(f"../../tps/{aa.archi}", "students")
     os.chdir(aa.root)
-    return 0
+    return 1
 
 def set_color(trace):
     val = 0

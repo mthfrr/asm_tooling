@@ -47,6 +47,6 @@ ag.foreach_student(count_empty_or_missing)
 ag.foreach_student(get_commits)
 ag.foreach_student(get_tree)
 if args.moulinette:
-    mouli_init(ag)
-    ag.foreach_student(moulinette)
+    if mouli_init(ag):
+        ag.foreach_student(moulinette)
 ag.generate_html()
