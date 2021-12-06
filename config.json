@@ -321,7 +321,34 @@
                 }
 
             ]
+        },
+        "tp07": {
+            "archi": [
+                "AUTHORS",
+                {
+                    "lists": [ "list.c", "list.h" ]
+                },
+                {
+                    "vectors": ["vector.c", "vector.h"]
+                }
+            ],
+            "exos": [
+                {
+                    "files": [
+                        "list"
+                    ],
+                    "name": "lists"
+                },
+                {
+                    "files": [
+                        "vector"
+                    ],
+                    "name": "vectors"
+                }
+            ],
+            "mouli": "git@gitlab.cri.epita.fr:prepa/asm/tests/tests-pw_07_lists_vectors.git"
         }
+
     },
     "username": "git",
     "year": 2025
