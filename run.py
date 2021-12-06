@@ -6,9 +6,9 @@ import logging
 from pathlib import Path
 from src.asm import *
 from src.authors import check_AUTHORS
-from src.git_tools import is_empty_repo, get_commits
+from src.git_tools import is_empty_repo, get_commits, git_clean
 from src.file_tools import check_archi, count_empty_or_missing, get_tree
-from src.moulinette import moulinette, mouli_init
+from src.moulinette import moulinette, mouli_init, load_traces
 
 
 # go to the scripts folder
@@ -22,6 +22,7 @@ parser.add_argument('-c', '--config', type=Path, required=True, help='.json conf
 parser.add_argument('-s', '--students', type=Path, required=True, help='students login list')
 parser.add_argument('-u', '--update', action='store_true', default=False, required=False, help='enable cloning/pulling')
 parser.add_argument('-m', '--moulinette', action='store_true', default=False, required=False, help='get traces from moulinette')
+parser.add_argument('-l', '--load', action='store_true', default=False, required=False, help='get traces from moulinette')
 parser.add_argument('-log', type=str, default="INFO", required=False, help='set logging level')
 args = parser.parse_args()
 
@@ -49,4 +50,6 @@ ag.foreach_student(get_tree)
 if args.moulinette:
     if mouli_init(ag):
         ag.foreach_student(moulinette)
+if args.load or args.moulinette:
+    ag.foreach_student(load_traces)
 ag.generate_html()

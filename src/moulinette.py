@@ -75,6 +75,8 @@ def set_color(trace):
         trace["color"] = "red";
     return val
 
+
+
 def run_mouli(stu: Student, tp_num):
     logging.info(f"mouli run {stu.login}")
     glob_path = f"../../moulinettes/*{tp_num}*"
@@ -98,7 +100,6 @@ def run_mouli(stu: Student, tp_num):
     res = subprocess.run(f"sudo chown \"$USER:$USER\" -R results/{str(Path(stu.project_dir).name)}", shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     if res.returncode != 0:
         logging.error(f"chown error {stu.login}:\n{res.stdout.decode('utf-8')}")
-        raise Exception("chown")
     os.chdir("results")
     
     logging.info(f"mouli gen trace {stu.login}")
@@ -107,18 +108,16 @@ def run_mouli(stu: Student, tp_num):
     #     logging.error(f"./generate_traces_json.py error {stu.login}:\n{res.stdout.decode('utf-8')}")
     #     raise Exception()
 
-def moulinette(stu: Student):
+def load_traces(stu: Student):
     if not stu.has_dir:
         stu.trace = "no_dir"
         return stu
     os.chdir(stu.root_folder)
     tp_num = Path(stu.root_folder).stem[2:]
     stu_dir = str(Path(stu.project_dir).name)
-    
-    run_mouli(stu, tp_num)
+
     os.chdir(stu.root_folder)
-    logging.info(f"mouli run {stu.login} done")
-    glob_path = f"../../moulinettes/*{tp_num}*/results/{stu_dir}/*.json"
+    glob_path = f"../../moulinettes/*{tp_num}*/**/*{stu.login}*.json"
     json_path = list(Path('.')\
         .glob(glob_path))
     if (len(json_path) != 1):
@@ -131,4 +130,16 @@ def moulinette(stu: Student):
         stu.trace = json.loads(f.read())
         set_color(stu.trace)
     logging.info(f"stored traces for {stu.login}")
+    return stu
+
+
+def moulinette(stu: Student):
+    if not stu.has_dir:
+        stu.trace = "no_dir"
+        return stu
+    os.chdir(stu.root_folder)
+    tp_num = Path(stu.root_folder).stem[2:]
+    
+    run_mouli(stu, tp_num)
+    logging.info(f"mouli run {stu.login} done")
     return stu

@@ -335,13 +335,13 @@
             "exos": [
                 {
                     "files": [
-                        "list"
+                        "lists/.*\\.c"
                     ],
                     "name": "lists"
                 },
                 {
                     "files": [
-                        "vector"
+                        "vectors/.*\\.c"
                     ],
                     "name": "vectors"
                 }
