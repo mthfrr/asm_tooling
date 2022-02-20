@@ -36,7 +36,7 @@
           "basics": ["Makefile", "hello.c", "hello_id.c", "hello_parity.c"]
         },
         {
-          "dnc": ["Makefile", "split.c", "dnc.h"]
+          "sums": ["Makefile", "split.c", "dnc.c"]
         }
       ],
       "exos": [
