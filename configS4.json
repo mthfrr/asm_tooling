@@ -1,0 +1,53 @@
+{
+  "gitpath": "{username}@git.cri.epita.fr:p/{year}-{semester}-tp/tp{nb:02d}-{student}",
+  "global_allowed_files": [".gitignore"],
+  "output_dir": "output",
+  "path": "tps/tp{nb:02d}",
+  "project_dir": "tp{nb:02d}-{student}",
+  "semester": "s4",
+  "template_file": "template/template.html",
+  "tps": {
+    "tp01": {
+      "archi": [
+        "AUTHORS",
+        {
+          "version_1": ["Makefile", "malloc.c", "malloc.h", "test.c"]
+        },
+        {
+          "version_2": ["Makefile", "malloc.c", "malloc.h", "test.c"]
+        }
+      ],
+      "exos": [
+        {
+          "files": ["version_1/malloc.c"],
+          "name": "v1"
+        },
+        {
+          "files": ["version_2/malloc.c"],
+          "name": "v2"
+        }
+      ]
+    },
+
+    "tp04": {
+      "archi": [
+        "AUTHORS",
+        {
+          "basics": ["Makefile", "hello.c", "hello_id.c", "hello_parity.c"]
+        },
+        {
+          "dnc": ["Makefile", "split.c", "dnc.h"]
+        }
+      ],
+      "exos": [
+        {"files": [".*/hello.c"], "name": "hello"},
+        {"files": [".*/hello_id.c"], "name": "hello_id"},
+        {"files": [".*/hello_parity.c"], "name": "hello_parity"},
+        {"files": [".*/split.c"], "name": "split"},
+        {"files": [".*/dnc.c"], "name": "dnc"}
+      ]
+    }
+  },
+  "username": "git",
+  "year": 2025
+}
