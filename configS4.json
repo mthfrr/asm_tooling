@@ -40,11 +40,84 @@
         }
       ],
       "exos": [
-        {"files": [".*/hello.c"], "name": "hello"},
-        {"files": [".*/hello_id.c"], "name": "hello_id"},
-        {"files": [".*/hello_parity.c"], "name": "hello_parity"},
-        {"files": [".*/split.c"], "name": "split"},
-        {"files": [".*/dnc.c"], "name": "dnc"}
+        { "files": [".*/hello.c"], "name": "hello" },
+        { "files": [".*/hello_id.c"], "name": "hello_id" },
+        { "files": [".*/hello_parity.c"], "name": "hello_parity" },
+        { "files": [".*/split.c"], "name": "split" },
+        { "files": [".*/dnc.c"], "name": "dnc" }
+      ]
+    },
+
+    "tp05": {
+      "archi": [
+        "AUTHORS",
+        "Makefile",
+        "queue.c",
+        "queue.h",
+        "server.c",
+        "shared_queue.c",
+        "shared_queue.h",
+        "test_shared_queue.c"
+      ],
+      "exos": [
+        { "files": ["queue\\.[ch]"], "name": "queue" },
+        { "files": ["shared_queue\\.[ch]"], "name": "shared_queue" },
+        { "files": ["server.c"], "name": "server" }
+      ]
+    },
+
+    "tp06": {
+      "archi": [
+        "AUTHORS",
+        {
+          "web_server": [
+            "Makefile",
+            "print_request.c",
+            "print_resource.c",
+            "single_threaded.c",
+            "multithreaded.c",
+            {
+              "www": [
+                { "doc": ["example.pdf"] },
+                { "image": ["bullet.png"] },
+                "favicon.ico",
+                "hello_world.html",
+                "index.html",
+                "slow.html",
+                "style.css"
+              ]
+            }
+          ]
+        },
+        {
+          "ttt_server":
+          [
+              "Makefile",
+              "ttt_server.c",
+              {
+                "www":
+                [
+                    "blank.png",
+                    "busy.html",
+                    "favicon.ico",
+                    "grid.html",
+                    "new_player.html",
+                    "o.png",
+                    "script.js",
+                    "style.css",
+                    "x.png"
+                ]
+              }
+          ]
+        }
+      ],
+      "exos": [
+        { "files": [".*/print_request.c"], "name": "print_request" },
+        { "files": [".*/print_resource.c"], "name": "print_resource" },
+        { "files": [".*/single_threaded.c"], "name": "single_threaded" },
+        { "files": [".*/multithreaded.c"], "name": "multithreaded" },
+        { "files": ["ttt_server/Makefile"], "name": "Makefile" },
+        { "files": [".*/ttt_server.c"], "name": "ttt_server" }
       ]
     }
   },
