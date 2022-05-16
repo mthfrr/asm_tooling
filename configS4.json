@@ -168,7 +168,7 @@
       "exos": [
         { "files": ["reverse/src/main\\.rs"], "name": "reverse"},
         { "files": [".*/simple_cli\\.rs"], "name": "scrabble"},
-        { "files": ["colors/src/main\\.rs"], "name": "colors"},
+        { "files": ["color/src/main\\.rs"], "name": "color"},
         { "files": ["hangman/src/main\\.rs"], "name": "hangman"}
       ]
     },
