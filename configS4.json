@@ -29,6 +29,24 @@
       ]
     },
 
+    "tp03": {
+      "archi": [
+        "AUTHORS",
+        {
+          "basics": ["Makefile", "hello.c", "hello_id.c", "hello_parity.c"]
+        },
+        {
+          "sums": ["Makefile", "split.c", "dnc.c"]
+        }
+      ],
+      "exos": [
+        { "files": [".*/hello.c"], "name": "hello" },
+        { "files": [".*/hello_id.c"], "name": "hello_id" },
+        { "files": [".*/hello_parity.c"], "name": "hello_parity" },
+        { "files": [".*/split.c"], "name": "split" },
+        { "files": [".*/dnc.c"], "name": "dnc" }
+      ]
+    },
     "tp04": {
       "archi": [
         "AUTHORS",
@@ -118,6 +136,19 @@
         { "files": [".*/multithreaded.c"], "name": "multithreaded" },
         { "files": ["ttt_server/Makefile"], "name": "Makefile" },
         { "files": [".*/ttt_server.c"], "name": "ttt_server" }
+      ]
+    },
+    "tp08": {
+      "archi": [
+        "AUTHORS",
+        {"iterators": ["Cargo.lock", "Cargo.toml", {"src": ["main.rs"]}]},
+        {"jumbled_text": ["Cargo.lock", "Cargo.toml", {"src": ["main.rs"]}]},
+        {"to_letters": ["Cargo.lock", "Cargo.toml", {"src": ["main.rs"]}]}
+      ],
+      "exos": [
+        { "files": ["iterators/main\\.rs"], "name": "iterators" },
+        { "files": ["jumbled_text/main\\.rs"], "name": "jumbled_text" },
+        { "files": ["to_lettres/main\\.rs"], "name": "to_lettres" }
       ]
     }
   },
