@@ -28,8 +28,7 @@
         }
       ]
     },
-
-    "tp04": {
+    "tp03": {
       "archi": [
         "AUTHORS",
         {
@@ -48,7 +47,26 @@
       ]
     },
 
-    "tp05": {
+    "tp09": {
+      "archi": [
+        "AUTHORS",
+        {
+          "basics": ["Makefile", "hello.c", "hello_id.c", "hello_parity.c"]
+        },
+        {
+          "sums": ["Makefile", "split.c", "dnc.c"]
+        }
+      ],
+      "exos": [
+        { "files": [".*/hello.c"], "name": "hello" },
+        { "files": [".*/hello_id.c"], "name": "hello_id" },
+        { "files": [".*/hello_parity.c"], "name": "hello_parity" },
+        { "files": [".*/split.c"], "name": "split" },
+        { "files": [".*/dnc.c"], "name": "dnc" }
+      ]
+    },
+
+    "tp04": {
       "archi": [
         "AUTHORS",
         "Makefile",
@@ -66,7 +84,7 @@
       ]
     },
 
-    "tp06": {
+    "tp16": {
       "archi": [
         "AUTHORS",
         {
@@ -118,6 +136,28 @@
         { "files": [".*/multithreaded.c"], "name": "multithreaded" },
         { "files": ["ttt_server/Makefile"], "name": "Makefile" },
         { "files": [".*/ttt_server.c"], "name": "ttt_server" }
+      ]
+    },
+
+    "tp06": {
+      "archi": [
+        "AUTHORS",
+        {"facto": ["Cargo.lock", "Cargo.toml", {"src": ["main.rs"]}]},
+        {"fibo": ["Cargo.lock", "Cargo.toml", {"src": ["main.rs"]}]},
+        {"isqrt": ["Cargo.lock", "Cargo.toml", {"src": ["main.rs"]}]},
+        {"power_of_two": ["Cargo.lock", "Cargo.toml", {"src": ["main.rs"]}]},
+        {"digit_count": ["Cargo.lock", "Cargo.toml", {"src": ["main.rs"]}]},
+        {"divisor_sum": ["Cargo.lock", "Cargo.toml", {"src": ["lib.rs", "main.rs"]}]},
+        {"perfect_numbers": ["Cargo.lock", "Cargo.toml", {"src": ["main.rs"]}]}
+      ],
+      "exos": [
+        { "files": ["facto/src/.*\\.rs"], "name": "facto" },
+        { "files": ["fibo/src/.*\\.rs"], "name": "fibo" },
+        { "files": ["isqrt/src/.*\\.rs"], "name": "isqrt" },
+        { "files": ["power_of_two/src/.*\\.rs"], "name": "power_of_two" },
+        { "files": ["digit_count/src/.*\\.rs"], "name": "digit_count" },
+        { "files": ["divisor_sum/src/.*\\.rs"], "name": "divisor_sum" },
+        { "files": ["perfect_numbers/src/.*\\.rs"], "name": "perfect_numbers" }
       ]
     }
   },
