@@ -46,6 +46,24 @@
         { "files": [".*/dnc.c"], "name": "dnc" }
       ]
     },
+    "tp14": {
+      "archi": [
+        "AUTHORS",
+        {
+          "basics": ["Makefile", "hello.c", "hello_id.c", "hello_parity.c"]
+        },
+        {
+          "sums": ["Makefile", "split.c", "dnc.c"]
+        }
+      ],
+      "exos": [
+        { "files": [".*/hello.c"], "name": "hello" },
+        { "files": [".*/hello_id.c"], "name": "hello_id" },
+        { "files": [".*/hello_parity.c"], "name": "hello_parity" },
+        { "files": [".*/split.c"], "name": "split" },
+        { "files": [".*/dnc.c"], "name": "dnc" }
+      ]
+    },
 
     "tp09": {
       "archi": [
@@ -138,7 +156,6 @@
         { "files": [".*/ttt_server.c"], "name": "ttt_server" }
       ]
     },
-
     "tp06": {
       "archi": [
         "AUTHORS",
@@ -158,6 +175,53 @@
         { "files": ["digit_count/src/.*\\.rs"], "name": "digit_count" },
         { "files": ["divisor_sum/src/.*\\.rs"], "name": "divisor_sum" },
         { "files": ["perfect_numbers/src/.*\\.rs"], "name": "perfect_numbers" }
+      ]
+    },
+    "tp07": {
+      "archi": [
+        "AUTHORS",
+        {"reverse": ["Cargo.lock", "Cargo.toml", {"src": ["main.rs"]}]},
+        {"scrabble": [
+            "Cargo.lock",
+            "Cargo.toml",
+            {"src": [
+                "main.rs",
+                {"bin": ["simple_cli.rs"]}
+            ]}
+        ]},
+        {"color": [
+            "Cargo.lock",
+            "Cargo.toml",
+            "colors.csv",
+            {"src": ["main.rs"]}
+        ]},
+        {"hangman": [
+            "Cargo.lock",
+            "Cargo.toml",
+            "player_1",
+            "player_2",
+            "player_test",
+            {"src": ["main.rs"]}
+        ]}
+      ],
+      "exos": [
+        { "files": ["reverse/src/main\\.rs"], "name": "reverse"},
+        { "files": [".*/simple_cli\\.rs"], "name": "scrabble"},
+        { "files": ["color/src/main\\.rs"], "name": "color"},
+        { "files": ["hangman/src/main\\.rs"], "name": "hangman"}
+      ]
+    },
+    "tp08": {
+      "archi": [
+        "AUTHORS",
+        {"iterators": ["Cargo.lock", "Cargo.toml", {"src": ["main.rs"]}]},
+        {"jumbled_text": ["Cargo.lock", "Cargo.toml", {"src": ["main.rs"]}]},
+        {"to_letters": ["Cargo.lock", "Cargo.toml", {"src": ["main.rs"]}]}
+      ],
+      "exos": [
+        { "files": ["iterators/main\\.rs"], "name": "iterators" },
+        { "files": ["jumbled_text/main\\.rs"], "name": "jumbled_text" },
+        { "files": ["to_lettres/main\\.rs"], "name": "to_lettres" }
       ]
     }
   },
