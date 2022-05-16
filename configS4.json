@@ -138,6 +138,40 @@
         { "files": [".*/ttt_server.c"], "name": "ttt_server" }
       ]
     },
+    "tp07": {
+      "archi": [
+        "AUTHORS",
+        {"reverse": ["Cargo.lock", "Cargo.toml", {"src": ["main.rs"]}]},
+        {"scrabble": [
+            "Cargo.lock",
+            "Cargo.toml",
+            {"src": [
+                "main.rs",
+                {"bin": ["simple_cli.rs"]}
+            ]}
+        ]},
+        {"color": [
+            "Cargo.lock",
+            "Cargo.toml",
+            "colors.csv",
+            {"src": ["main.rs"]}
+        ]},
+        {"hangman": [
+            "Cargo.lock",
+            "Cargo.toml",
+            "player_1",
+            "player_2",
+            "player_test",
+            {"src": ["main.rs"]}
+        ]}
+      ],
+      "exos": [
+        { "files": ["reverse/src/main\\.rs"], "name": "reverse"},
+        { "files": [".*/simple_cli\\.rs"], "name": "scrabble"},
+        { "files": ["colors/src/main\\.rs"], "name": "colors"},
+        { "files": ["hangman/src/main\\.rs"], "name": "hangman"}
+      ]
+    },
     "tp08": {
       "archi": [
         "AUTHORS",
